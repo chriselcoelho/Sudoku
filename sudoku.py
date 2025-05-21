@@ -18,7 +18,7 @@ def generate_sudoku(difficulty='easy'):
     squares = side * side
     empties = {'easy': 20, 'medium': 40, 'hard': 60}.get(difficulty, 20)
     for _ in range(empties):
-        x, y = random.randint9 (0, side-1), random.randint(0,side-1)
+        x, y = random.randint (0, side-1), random.randint(0,side-1)
         board[x][y] = 0
     
     return board

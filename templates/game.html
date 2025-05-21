@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html>
-<head><title>Sudoku</title></head>
+<head>
+    <title>Sudoku</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
 <body>
     <h1>Sudoku Puzzle</h1>
-    <table border="1">
+    <table>
         {% for row in board %}
             <tr>
                 {% for cell in row %}
                     <td>
                         {% if cell == 0 %}
-                            <input type="text" size="1" maxlength="1">
+                            <input type="text" maxlength="1" pattern="[1-9]" />
                         {% else %}
                             {{ cell }}
                         {% endif %}
@@ -18,5 +21,77 @@
             </tr>
         {% endfor %}
     </table>
+
+    <button id="play-again" style="display:none;">Play Again</button>
+
+    <script>
+        const solutionBoard = {{ board|tojson|safe }};
+        const inputs = document.querySelectorAll('input[type="text"]');
+        const playAgainBtn = document.getElementById('play-again');
+
+        // Function to check input values
+        function checkInputs() {
+            let allCorrect = true;
+
+            inputs.forEach((input, index) => {
+                const row = Math.floor(index / 9);
+                const col = index % 9;
+                const val = input.value;
+
+                if (val === '') {
+                    input.classList.remove('correct', 'wrong');
+                    allCorrect = false;
+                } else if (parseInt(val) === solutionboard[row][col]) {
+                    input.classList.add('correct');
+                    input.classList.remove('wrong');
+                } else {
+                    input.classList.add('wrong');
+                    input.classList.remove('correct');
+                    allCorrect = false;
+                }
+            });
+
+            if (allCorrect) {
+                celebrate();
+            }
+        }
+
+        // Listen for input changes
+        inputs.forEach(input => {
+            input.addEventListener('input', () => {
+                // Only allow digits 1-9
+                input.value = input.value.replace(/[^1-9]/g, '');
+
+                checkInputs();
+            });
+        });
+
+        // Celebrate function with confetti effect
+        function celebrate() {
+            playAgainBtn.style.display = 'inline-block';
+
+            // Simple confetti effect using emojis
+            const confettiCount = 100;
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                confetti.innerText = '🎉';
+                confetti.style.position = 'fixed';
+                confetti.style.left = Math.random() * window.innerWidth + 'px';
+                confetti.style.top = Math.random() * window.innerHeight + 'px';
+                confetti.style.fontSize = '20px';
+                confetti.style.opacity = '0.7';
+                document.body.appendChild(confetti);
+
+                setTimeout(() => confetti.remove(), 3000);
+            }
+
+            alert('🎊 Congratulations! You solved the puzzle! 🎊');
+        }
+
+        // Play Again button reloads home page
+        playAgainBtn.addEventListener('click', () => {
+            window.location.href = '/';
+        });
+    </script>
 </body>
 </html>
