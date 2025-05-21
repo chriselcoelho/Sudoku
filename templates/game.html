@@ -4,8 +4,16 @@
     <title>Sudoku</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
+<body id="main-body">
     <h1>Sudoku Puzzle</h1>
+    <div class="background-picker">
+        <label for="background-select">Choose Background:</label>
+        <select id="background-select">
+            <option value="bg_classic.jpg">Classic</option>
+            <option value="bg_forest.jpg">Forest</option>
+            <option value="bg_space.jpg">Space</option>
+        </select>
+    </div>
     <table>
         {% for row in board %}
             <tr>
@@ -28,7 +36,14 @@
         const solutionBoard = {{ board|tojson|safe }};
         const inputs = document.querySelectorAll('input[type="text"]');
         const playAgainBtn = document.getElementById('play-again');
+        const backgroundSelect = document.getElementById('background-select');
+        const mainBody = document.getElementById('main-body');
 
+        // Background changing
+        backgroundSelect.addEventListener('change', () => {
+            const bgFile = backgroundSelect.value;
+            mainBody.style.backgroundImage = `url('/static/${bgFile}')`;
+        });
         // Function to check input values
         function checkInputs() {
             let allCorrect = true;
