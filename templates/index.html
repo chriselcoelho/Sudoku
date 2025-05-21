@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <html>
-<head><title>Sudoku Game</title></head>
-<body>
+<head>
+    <title>Sudoku Game</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body id="home-body">
     <h1>Select Difficulty</h1>
-    <form method="POST" action="/game">
-        <button name="difficulty" value="easy">Easy</button>
-        <button name="difficulty" value="medium">Medium</button>
-        <button name="difficulty" value="hard">Hard</button>
-    </form>
+
+    <div class="difficulty-buttons">
+        <form method="POST" action="/game">
+            <button name="difficulty" value="easy" class="difficulty-button easy">🟢 Easy</button>
+            <button name="difficulty" value="medium" class="difficulty-button medium">🟡 Medium</button>
+            <button name="difficulty" value="hard" class="difficulty-button hard">🔴 Hard</button>
+        </form>
+    </div>
 </body>
 </html>
