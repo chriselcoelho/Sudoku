@@ -9,7 +9,7 @@
     <div class="background-picker">
         <label for="background-select">Choose Background:</label>
         <select id="background-select">
-            <option value="bg_classic.jpg">Classic</option>
+            <option value="bg_classic.jpg" selected>Classic</option>
             <option value="bg_forest.jpg">Forest</option>
             <option value="bg_space.jpg">Space</option>
         </select>
@@ -38,6 +38,7 @@
         const playAgainBtn = document.getElementById('play-again');
         const backgroundSelect = document.getElementById('background-select');
         const mainBody = document.getElementById('main-body');
+        mainBody.style.backgroundImage = `url('/static/bg_classic.jpg')`;
 
         // Background changing
         backgroundSelect.addEventListener('change', () => {
